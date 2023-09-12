@@ -1,4 +1,4 @@
-# test2
+# Individuell del
 
 Operativsystemnavn	Microsoft Windows 11 Home
 Versjon	10.0.22621 Bygg 22621
