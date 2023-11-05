@@ -1,3 +1,5 @@
+#OPPGAVE 1
+
 include color
 
 #funksjon som tegner flagg
@@ -131,3 +133,56 @@ Island = iceland
 Faaroyene = faroeislands
 Danmark = denmark
 
+##################################################################################
+#OPPGAVE 2
+
+
+#Oppgave B
+include shared-gdrive(
+             "dcic-2021",
+  "1wyQZj_L0qqV9Ekgr9au6RX2iqt2Ga8Ep") 
+
+#Oppgave A
+include gdrive-sheets
+       include data-source
+       ssid = "1RYN0i4Zx_UETVuYacgaGfnFcv4l9zd9toQTTdkQkj7g"
+
+kWh-wealthy-consumer-data =
+             load-table: komponent, energi
+             source: load-spreadsheet(ssid).sheet-by-name("kWh", true)
+    sanitize energi using string-sanitizer
+  end
+
+distance-travelled-per-day = 30
+# 30km reise hver dag.  (https://www.ssb.no/transport-og-reiseliv/landtransport/statistikk/kjorelengder)
+
+distance-per-unit-of-fuel = 20
+# 20km pr liter med drivstoff. https://vianor.no/dekkinformasjon/fakta-om-dekk/drivstofforbruk/
+
+energy-per-unit-of-fuel = 10 
+# 10kwh pr liter med drivstoff
+
+
+energy-per-day = ( distance-travelled-per-day / distance-per-unit-of-fuel ) * energy-per-unit-of-fuel
+
+#Oppgave B
+fun energi-to-number(str :: String) -> Number:
+  cases(Option) string-to-number(str):
+    | some(a) => a
+    | none => energy-per-day
+  end
+
+where:
+  energi-to-number("") is energy-per-day
+  energi-to-number("48") is 48 
+end
+
+#Oppgave C
+kWh-wealthy-consumer-data-fixed = 
+  transform-column(kWh-wealthy-consumer-data, "energi", energi-to-number) 
+
+#Oppgave D
+sum(kWh-wealthy-consumer-data-fixed, "energi") 
+
+#Oppgave E
+bar-chart(kWh-wealthy-consumer-data-fixed, "komponent", "energi") 
