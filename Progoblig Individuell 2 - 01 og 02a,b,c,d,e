@@ -133,16 +133,21 @@ Island = iceland
 Faaroyene = faroeislands
 Danmark = denmark
 
-##################################################################################
-#OPPGAVE 2
+#################################################################################################################################################
+#################################################################################################################################################
+#################################################################################################################################################
+#################################################################################################################################################
+#################################################################################################################################################
 
+
+#OPPGAVE 2
 
 #Oppgave B
 include shared-gdrive(
              "dcic-2021",
   "1wyQZj_L0qqV9Ekgr9au6RX2iqt2Ga8Ep") 
 
-#Oppgave A
+#Oppgave A - Importerte tabellen ved hjelp av koden oppgitt Kodeeksempel 1 
 include gdrive-sheets
        include data-source
        ssid = "1RYN0i4Zx_UETVuYacgaGfnFcv4l9zd9toQTTdkQkj7g"
@@ -150,8 +155,12 @@ include gdrive-sheets
 kWh-wealthy-consumer-data =
              load-table: komponent, energi
              source: load-spreadsheet(ssid).sheet-by-name("kWh", true)
-    sanitize energi using string-sanitizer
+    sanitize energi using string-sanitizer  
   end
+
+
+#Her brukte jeg "sanitize" for å fikse "energi" kolonnen. Deretter brukte jeg "String-sanitizer" for å gjøre alt innholdet i en celle om til en "string".
+
 
 distance-travelled-per-day = 30
 # 30km reise hver dag.  (https://www.ssb.no/transport-og-reiseliv/landtransport/statistikk/kjorelengder)
@@ -177,12 +186,24 @@ where:
   energi-to-number("48") is 48 
 end
 
+#Her gjorde jeg følgende endringer på kodeeksempelet:
+#set-angle(s :: String)" ble til: energi-to-number(str :: String)
+#string-to-number(s) ble til: string-to-number(str)
+#Senere i oppgaven endret jeg også "none => 0" til "none => energy-per-day", og "energi-to-number("") is 0" til "energi-to-number("") is energy-per-day"
+
+
 #Oppgave C
+#Her søkte jeg opp funksjonen «transform-column» i pyret-dokumentasjonen, og erstattet med mine gitte argumenter.
+
 kWh-wealthy-consumer-data-fixed = 
   transform-column(kWh-wealthy-consumer-data, "energi", energi-to-number) 
 
 #Oppgave D
+#Her fant måtte jeg gjøre research for å finne "distance-per-unit-of-fuel", og "distance-travelled-per-day". Formelen var oppgitt i forelesningsnotater. Jeg måtte også flytte hele formelen over funksjonen for at den skulle fungere. Deretter brukte jeg "sum" funksjonen til å beregne det totale utslippet til en typisk innbygger. 
+
 sum(kWh-wealthy-consumer-data-fixed, "energi") 
 
 #Oppgave E
+#Her bruker jeg "bar-chart" formelen til å generere et "chart" som visualiserer det totale forbruket. 
+
 bar-chart(kWh-wealthy-consumer-data-fixed, "komponent", "energi") 
