@@ -1,0 +1,133 @@
+include color
+
+#funksjon som tegner flagg
+
+fun draw-flag(params):
+  
+  background = rectangle(params.width, params.height, "solid", params.background)
+  horizontal-line = rectangle(params.width, params.innerCrossWidth, "solid", params.innerCross)
+  vertical-line = rectangle(params.innerCrossHeight, params.height, "solid", params.innerCross)
+  
+  
+#outercross
+  
+  first-horizontal-line = rectangle(params.width, params.outerCrossHeight, "solid",     params.outerCross) 
+  second-horizontal-line = rectangle(params.width, params.innerCrossHeight, "solid", params.innerCross) 
+  
+#innercross
+  
+  first-vertical-line = rectangle(params.innerCrossWidth, params.height, "solid", params.innerCross)
+  second-vertical-line = rectangle(params.outerCrossWidth, params.height, "solid", params.outerCross)
+
+  put-image(second-horizontal-line, params.width / 2, params.height / 2,
+    put-image(first-vertical-line, params.crossposition, params.height / 2,
+      put-image(first-horizontal-line, params.width / 2, params.height / 2,
+        put-image(second-vertical-line, params.crossposition, params.height / 2,
+          background))))
+end
+
+#Pre-definerte parameter til de forskjellige flaggene
+
+iceland-params = {
+  background: color(2, 82, 156, 1),
+  innerCross: color(220, 30, 53, 1),
+  outerCross: color(255, 255, 255, 1),
+  width: 250,
+  height: 180,
+  innerCrossWidth: 20,
+  innerCrossHeight: 20,
+  outerCrossWidth: 40,
+  outerCrossHeight: 40,
+  crossposition: 80
+}
+
+norway-params = {
+  background: color(186, 12, 47, 1),
+  innerCross: color(0, 32, 91, 1),
+  outerCross: color(255, 255, 255, 1),
+  width: 220,
+  height: 160,
+  innerCrossWidth: 20,
+  innerCrossHeight: 20,
+  outerCrossWidth: 40,
+  outerCrossHeight: 40,
+  crossposition: 80
+}
+
+finland-params = {
+  background: color(255, 255, 255, 1),
+  innerCross: color(0, 47, 108, 1),
+  outerCross: color(0, 47, 108, 1),
+  width: 360,
+  height: 220,
+  innerCrossWidth: 30,
+  innerCrossHeight: 30,
+  outerCrossWidth: 60,
+  outerCrossHeight: 60,
+  crossposition: 130
+}
+
+sweden-params = {
+  background: color(0, 106, 167, 1),
+  innerCross: color(254, 204, 2, 1),
+  outerCross: color(254, 204, 2, 1),
+  width: 320,
+  height: 200,
+  innerCrossWidth: 40,
+  innerCrossHeight: 30,
+  outerCrossWidth: 30,
+  outerCrossHeight: 40,
+  crossposition: 120
+}
+
+denmark-params = {
+  background: color(200, 16, 46, 1),
+  innerCross: color(255, 255, 255, 1),
+  outerCross: color(255, 255, 255, 1),
+  width: 370,
+  height: 280,
+  innerCrossWidth: 30,
+  innerCrossHeight: 30,
+  outerCrossWidth: 50,
+  outerCrossHeight: 50,
+  crossposition: 140
+}
+
+faroeislands-params = {
+  background: color(255, 255, 255, 1),
+  innerCross: color(237, 41, 57, 1),
+  outerCross: color(0, 101, 189, 1),
+  width: 220,
+  height: 160,
+  innerCrossWidth: 20,
+  innerCrossHeight: 20,
+  outerCrossWidth: 40,
+  outerCrossHeight: 40,
+  crossposition: 80
+    
+}
+
+#Produser ett flagg ved å bruke draw-flag funksjonen eller ved å skrive navnet på landet.
+
+iceland = draw-flag(iceland-params)
+
+norway = draw-flag(norway-params)
+
+finland = draw-flag(finland-params)
+
+sweden = draw-flag(sweden-params)
+
+denmark = draw-flag(denmark-params)
+
+faroeislands = draw-flag(faroeislands-params)
+
+
+#Alias for de forskjellige landene
+
+Norge = norway
+Sverige = sweden
+Finland = finland
+Island = iceland
+Faaroyene = faroeislands
+Danmark = denmark
+
